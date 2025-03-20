@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Massa {
+  id_massa      Int    @id @default(autoincrement())
+  nome          String @unique
+  tipo_massa    String
+  tipo_relation Tipo   @relation(fields: [tipo_massa], references: [tipo])
+  preco_custo   Float
+  preco_venda   Float
+  qtd_estoque   Int
+}
+
+model Tipo {
+  id_tipo Int     @id @default(autoincrement())
+  tipo    String  @unique
+  Massa   Massa[]
+}
